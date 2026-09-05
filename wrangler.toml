@@ -9,6 +9,3 @@ database_name = "joycloud"
 database_id = "f8e147f3-dcef-40a0-9c24-85179fc6662d"
 migrations_dir = "drizzle"
 
-[[r2_buckets]]
-binding = "BUCKET"
-bucket_name = "dresscode-images"
