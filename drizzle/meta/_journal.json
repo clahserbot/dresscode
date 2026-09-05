@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1788527140455,
+      "tag": "0000_fat_silver_samurai",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1788628973491,
+      "tag": "0001_glamorous_supreme_intelligence",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1788635293384,
+      "tag": "0002_loud_felicia_hardy",
+      "breakpoints": true
+    }
+  ]
+}

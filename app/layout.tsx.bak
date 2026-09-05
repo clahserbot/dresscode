@@ -1,0 +1,49 @@
+import type { Metadata } from "next";
+import { DM_Sans } from "next/font/google";
+import "./globals.css";
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "DressCode | Cozy Commerce",
+  description: "Modern, warm, and approachable clothing storefront",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en">
+      <body
+        className={`${dmSans.variable} font-sans antialiased bg-[#F9F7F5] text-[#3E2B1E] min-h-screen flex flex-col selection:bg-[#E9E3DD] selection:text-[#3E2B1E]`}
+      >
+        <div className="bg-[#5D4432] text-white text-xs font-medium text-center py-2 px-4">
+          Free shipping on all orders over $150
+        </div>
+        <header className="sticky top-0 w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+          <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="/" className="font-bold text-2xl tracking-tight text-[#3E2B1E]">DressCode.</a>
+            <nav className="hidden md:flex gap-8 text-sm font-medium">
+              <a href="/?category=outerwear" className="text-gray-500 hover:text-[#5D4432] transition-colors">Outerwear</a>
+              <a href="/?category=tops" className="text-gray-500 hover:text-[#5D4432] transition-colors">Tops</a>
+              <a href="/?category=bottoms" className="text-gray-500 hover:text-[#5D4432] transition-colors">Bottoms</a>
+              <a href="/?category=accessories" className="text-gray-500 hover:text-[#5D4432] transition-colors">Accessories</a>
+            </nav>
+            <a href="/admin" className="text-xs uppercase tracking-widest font-bold text-gray-400 hover:text-[#5D4432] transition-colors bg-gray-100 px-4 py-2 rounded-full">Admin</a>
+          </div>
+        </header>
+        <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-12 md:py-20">
+          {children}
+        </main>
+        <footer className="py-12 border-t border-gray-200 text-center text-sm text-gray-500">
+          <p>&copy; {new Date().getFullYear()} DressCode. All rights reserved.</p>
+        </footer>
+      </body>
+    </html>
+  );
+}

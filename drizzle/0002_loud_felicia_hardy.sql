@@ -1,0 +1,1 @@
+ALTER TABLE `categories` ADD `whatsapp_message` text;

@@ -1,0 +1,90 @@
+"use client";
+
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+
+interface ProductDetailViewProps {
+  product: {
+    title: string;
+    description: string | null;
+    price: number;
+    r2ImageUrl: string;
+    category: string;
+  };
+  sizes: string[];
+  whatsappUrl: string;
+}
+
+export default function ProductDetailView({ product, sizes, whatsappUrl }: ProductDetailViewProps) {
+  return (
+    <div className="min-h-[80vh] pt-4 pb-24">
+      <Link href="/" className="text-sm font-medium text-gray-500 hover:text-[#5D4432] mb-8 inline-block transition-colors relative z-10">
+        &larr; Back to shop
+      </Link>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+        {/* Rounded Image Section */}
+        <motion.div 
+          className="bg-gray-100 aspect-[3/4] lg:aspect-auto lg:h-[75vh] overflow-hidden rounded-[2.5rem] relative"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <img 
+            src={product.r2ImageUrl} 
+            alt={product.title} 
+            className="w-full h-full object-cover object-center"
+          />
+        </motion.div>
+
+        {/* Typography & Details */}
+        <motion.div 
+          className="flex flex-col justify-center"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+        >
+          <p className="text-sm text-gray-500 font-medium capitalize mb-4">{product.category}</p>
+          
+          <h1 className="font-bold text-4xl lg:text-6xl tracking-tight mb-6 text-[#3E2B1E]">
+            {product.title}
+          </h1>
+          
+          <p className="font-semibold text-2xl text-[#3E2B1E] mb-10">
+            ${product.price.toFixed(2)}
+          </p>
+          
+          <div className="prose prose-neutral mb-12 text-gray-600 font-medium leading-relaxed max-w-md">
+            <p>{product.description}</p>
+          </div>
+
+          <div className="mb-12">
+            <h3 className="text-sm font-bold text-[#3E2B1E] mb-4">Select Size</h3>
+            <div className="flex gap-3">
+              {sizes.map((size: string) => (
+                <div key={size} className="w-12 h-12 flex items-center justify-center rounded-full border-2 border-gray-200 text-sm font-bold text-gray-600 hover:border-[#5D4432] hover:bg-[#5D4432] hover:text-white transition-all cursor-pointer">
+                  {size}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <motion.a 
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full max-w-md bg-[#5D4432] text-white text-center py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-shadow"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            Buy on WhatsApp
+          </motion.a>
+          
+          <p className="text-sm text-gray-500 mt-6 max-w-md text-center font-medium">
+            Checkout is completed securely via chat.
+          </p>
+        </motion.div>
+      </div>
+    </div>
+  );
+}
