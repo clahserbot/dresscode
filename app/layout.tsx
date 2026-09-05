@@ -9,8 +9,34 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "DressCode",
-  description: "Premium clothing for modern lifestyles",
+  title: {
+    template: "%s | DressCode - Premium Fashion",
+    default: "DressCode - Premium Clothing for the Modern Lifestyle",
+  },
+  description: "Discover our latest styles designed for the modern lifestyle. Quality meets comfort with DressCode's premium, sustainable fashion collection.",
+  keywords: ["fashion", "clothing", "premium", "modern", "lifestyle", "apparel"],
+  openGraph: {
+    title: "DressCode - Premium Fashion",
+    description: "Discover our latest styles designed for the modern lifestyle. Quality meets comfort.",
+    url: "https://dresscode.com",
+    siteName: "DressCode",
+    images: [
+      {
+        url: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2070&auto=format&fit=crop",
+        width: 1200,
+        height: 630,
+        alt: "DressCode Premium Collection",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "DressCode - Premium Fashion",
+    description: "Quality meets comfort with DressCode's premium fashion collection.",
+    images: ["https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2070&auto=format&fit=crop"],
+  },
 };
 
 export default function RootLayout({
