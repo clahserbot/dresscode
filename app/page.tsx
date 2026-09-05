@@ -3,7 +3,7 @@ import { products, settings } from '@/db/schema';
 import { desc, eq, sql } from 'drizzle-orm';
 import ProductGrid from '@/components/ProductGrid';
 
-export const runtime = 'edge';
+
 
 export default async function Storefront(props: { searchParams: Promise<{ category?: string, q?: string }> }) {
   const searchParams = await props.searchParams;

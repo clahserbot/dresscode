@@ -4,7 +4,7 @@ import { eq } from 'drizzle-orm';
 import { notFound } from 'next/navigation';
 import ProductDetailView from '@/components/ProductDetailView';
 
-export const runtime = 'edge';
+
 
 export default async function ProductPage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;

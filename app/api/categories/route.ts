@@ -3,7 +3,7 @@ import { getDb } from '@/db/db';
 import { categories } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 
-export const runtime = 'edge';
+
 
 export async function GET() {
   try {
