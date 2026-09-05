@@ -1,24 +1,25 @@
-import { sqliteTable, text, integer, real } from 'drizzle-orm/sqlite-core';
+import { pgTable, text, bigint, doublePrecision } from 'drizzle-orm/pg-core';
 
-export const categories = sqliteTable('categories', {
+export const categories = pgTable('categories', {
   id: text('id').primaryKey(),
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
   whatsappMessage: text('whatsapp_message'),
 });
 
-export const products = sqliteTable('products', {
+export const products = pgTable('products', {
   id: text('id').primaryKey(),
   title: text('title').notNull(),
   description: text('description').notNull(),
-  price: real('price').notNull(),
+  price: doublePrecision('price').notNull(),
   sizes: text('sizes').notNull(), // JSON string array
   category: text('category').notNull().references(() => categories.slug),
   r2ImageUrl: text('r2_image_url').notNull(),
-  createdAt: integer('created_at').notNull(),
+  createdAt: bigint('created_at', { mode: 'number' }).notNull(),
 });
 
-export const settings = sqliteTable('settings', {
+export const settings = pgTable('settings', {
   key: text('key').primaryKey(),
   value: text('value').notNull(),
 });
+
