@@ -10,7 +10,9 @@ export async function GET() {
   const allSettings = await db.select().from(settings);
   
   const settingsMap = allSettings.reduce((acc, curr) => {
-    acc[curr.key] = curr.value;
+    if (curr.key !== 'admin_username' && curr.key !== 'admin_password') {
+      acc[curr.key] = curr.value;
+    }
     return acc;
   }, {} as Record<string, string>);
 

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const basicAuth = req.headers.get('authorization');
   const url = req.nextUrl;
 
@@ -16,11 +16,22 @@ export function middleware(req: NextRequest) {
       const authValue = basicAuth.split(' ')[1];
       const [user, pwd] = atob(authValue).split(':');
 
-      const expectedUser = process.env.ADMIN_USER || 'flowframe';
-      const expectedPwd = process.env.ADMIN_PASSWORD || 'flowframe';
-
-      if (user === expectedUser && pwd === expectedPwd) {
-        return NextResponse.next();
+      try {
+        const verifyUrl = new URL('/api/auth/verify', req.url);
+        const authRes = await fetch(verifyUrl.toString(), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user, pwd })
+        });
+        
+        if (authRes.ok) {
+          const authData = await authRes.json();
+          if (authData.success) {
+            return NextResponse.next();
+          }
+        }
+      } catch (error) {
+        console.error('Middleware auth check error:', error);
       }
     }
     

@@ -12,7 +12,10 @@ export default function AdminNav() {
     { name: 'Products', href: '/admin' },
     { name: 'Categories', href: '/admin/categories' },
     { name: 'Hero', href: '/admin/settings' },
+    { name: 'Shop The Look', href: '/admin/shop-the-look' },
     { name: 'Promos', href: '/admin/promos' },
+    { name: 'Style Quiz', href: '/admin/style-quiz' },
+    { name: 'Gallery', href: '/admin/gallery' },
     { name: 'Checkout', href: '/admin/checkout' }
   ];
 

@@ -19,7 +19,9 @@ export default function SettingsPage() {
     promo2_subtitle: '',
     promo2_description: '',
     promo2_image_url: '',
-    promo2_product_id: ''
+    promo2_product_id: '',
+    admin_username: '',
+    admin_password: ''
   });
   const [file, setFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState<'idle'|'compressing'|'uploading'|'saving'>('idle');
@@ -42,7 +44,9 @@ export default function SettingsPage() {
           promo2_subtitle: data.promo2_subtitle || '',
           promo2_description: data.promo2_description || '',
           promo2_image_url: data.promo2_image_url || '',
-          promo2_product_id: data.promo2_product_id || ''
+          promo2_product_id: data.promo2_product_id || '',
+          admin_username: '',
+          admin_password: ''
         });
       });
   }, []);
@@ -98,12 +102,16 @@ export default function SettingsPage() {
     const currentRes = await fetch('/api/settings');
     const currentSettings = await currentRes.json();
 
+    const payload = { ...currentSettings, ...settings, hero_image_url: finalImageUrl };
+    if (!settings.admin_username) delete payload.admin_username;
+    if (!settings.admin_password) delete payload.admin_password;
+
     await fetch('/api/settings', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...currentSettings, ...settings, hero_image_url: finalImageUrl })
+      body: JSON.stringify(payload)
     });
-    setSettings({...settings, hero_image_url: finalImageUrl });
+    setSettings({...settings, hero_image_url: finalImageUrl, admin_username: '', admin_password: '' });
     setUploadStatus('idle');
     setFile(null);
     alert('Hero Settings saved successfully!');
@@ -171,6 +179,34 @@ export default function SettingsPage() {
                 />
               </div>
               <p className="mt-2 text-xs text-gray-500">Upload a new image to replace the current one. Max size 5MB after compression.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* ADMIN ACCESS CARD */}
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-sm">
+          <h2 className="text-xl font-semibold mb-6 text-gray-900">Admin Access</h2>
+          <p className="text-sm text-gray-500 mb-6">Update your login credentials. Leave blank to keep current credentials.</p>
+          <div className="space-y-5">
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-gray-700">New Admin Username</label>
+              <input 
+                type="text" 
+                value={settings.admin_username} 
+                onChange={e => setSettings({...settings, admin_username: e.target.value})} 
+                placeholder="Leave blank to keep unchanged"
+                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 outline-none focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all" 
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1.5 text-gray-700">New Admin Password</label>
+              <input 
+                type="password" 
+                value={settings.admin_password} 
+                onChange={e => setSettings({...settings, admin_password: e.target.value})} 
+                placeholder="Leave blank to keep unchanged"
+                className="w-full border border-gray-300 rounded-xl px-4 py-2.5 outline-none focus:border-gray-900 focus:ring-1 focus:ring-gray-900 transition-all" 
+              />
             </div>
           </div>
         </div>
