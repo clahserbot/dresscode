@@ -16,7 +16,8 @@ export default function AdminNav() {
     { name: 'Promos', href: '/admin/promos' },
     { name: 'Style Quiz', href: '/admin/style-quiz' },
     { name: 'Gallery', href: '/admin/gallery' },
-    { name: 'Checkout', href: '/admin/checkout' }
+    { name: 'Checkout', href: '/admin/checkout' },
+    { name: 'Account', href: '/admin/account' }
   ];
 
   return (
