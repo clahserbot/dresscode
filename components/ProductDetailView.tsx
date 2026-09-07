@@ -71,12 +71,14 @@ export default function ProductDetailView({ product, sizes }: ProductDetailViewP
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16 items-start">
         {/* Product Image */}
-        <div className="bg-[#F3F4F6] aspect-square rounded-2xl overflow-hidden sticky top-28">
-          <img 
-            src={product.r2ImageUrl} 
-            alt={product.title} 
-            className="w-full h-full object-cover mix-blend-multiply"
-          />
+        <div className="bg-white aspect-square rounded-2xl overflow-hidden sticky top-28 z-20 isolate">
+          <div className="w-full h-full bg-[#F3F4F6]">
+            <img 
+              src={product.r2ImageUrl} 
+              alt={product.title} 
+              className="w-full h-full object-cover mix-blend-multiply"
+            />
+          </div>
         </div>
 
         {/* Product Details */}

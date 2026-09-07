@@ -36,13 +36,13 @@ export default function ProductCard({ id, title, price, imageUrl, category }: Pr
           ))}
         </div>
         
-        <h3 className="font-medium text-lg text-[#111827] group-hover:text-[#3C50E0] transition-colors duration-300 line-clamp-1">
+        <h3 className="font-medium text-sm sm:text-lg text-[#111827] group-hover:text-[#3C50E0] transition-colors duration-300 line-clamp-1">
           {title}
         </h3>
         
-        <div className="flex items-center gap-2 mt-1">
-          <p className="font-bold text-lg text-[#111827]">₹{price.toFixed(2)}</p>
-          <p className="text-sm text-gray-400 line-through">₹{(price * 1.2).toFixed(2)}</p>
+        <div className="flex items-center gap-1.5 sm:gap-2 mt-1">
+          <p className="font-bold text-base sm:text-lg text-[#111827]">₹{price.toFixed(2)}</p>
+          <p className="text-xs sm:text-sm text-gray-400 line-through">₹{(price * 1.2).toFixed(2)}</p>
         </div>
       </div>
     </Link>

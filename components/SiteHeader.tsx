@@ -121,7 +121,7 @@ export default function SiteHeader() {
           
           {/* Menu Panel */}
           <div className="lg:hidden absolute top-20 left-0 w-full z-50 animate-slide-down">
-            <div className="relative mx-4 mt-2 overflow-hidden rounded-2xl bg-white/90 backdrop-blur-xl border border-white/20 shadow-2xl shadow-[#3C50E0]/10">
+            <div className="relative mx-4 mt-2 overflow-hidden rounded-2xl bg-white border border-gray-100 shadow-2xl shadow-[#3C50E0]/10">
               {/* Gradient Accent Line */}
               <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-[#3C50E0] via-[#7C3AED] to-[#EC4899]"></div>
               

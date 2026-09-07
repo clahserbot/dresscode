@@ -26,6 +26,7 @@ export async function POST(request: Request) {
       name: data.name,
       slug: data.slug,
       whatsappMessage: data.whatsappMessage || null,
+      imageUrl: data.imageUrl || null,
     };
 
     await db.insert(categories).values(newCategory);
@@ -34,6 +35,32 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Failed to create category' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const db = getDb();
+    const data = await request.json();
+    const { id, name, slug, whatsappMessage, imageUrl } = data;
+
+    if (!id) {
+      return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
+    }
+
+    await db.update(categories)
+      .set({
+        name,
+        slug,
+        whatsappMessage: whatsappMessage || null,
+        imageUrl: imageUrl || null,
+      })
+      .where(eq(categories.id, id));
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Failed to update category' }, { status: 500 });
   }
 }
 

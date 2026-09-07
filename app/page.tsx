@@ -1,5 +1,5 @@
 import { getDb } from '@/db/db';
-import { products, settings } from '@/db/schema';
+import { categories, products, settings } from '@/db/schema';
 import { desc, eq, sql } from 'drizzle-orm';
 import ProductGrid from '@/components/ProductGrid';
 import AnimatedSection from '@/components/AnimatedSection';
@@ -24,6 +24,12 @@ export default async function Storefront(props: { searchParams: Promise<{ catego
   } else {
     results = await db.select().from(products).orderBy(desc(products.createdAt));
   }
+
+  const allCategories = await db.select().from(categories);
+  const categoriesWithImages = allCategories.map((cat) => ({
+    ...cat,
+    imageUrl: cat.imageUrl || 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=400&auto=format&fit=crop'
+  }));
 
   const allSettings = await db.select().from(settings);
   const settingsMap = allSettings.reduce((acc, curr) => {
@@ -60,10 +66,10 @@ export default async function Storefront(props: { searchParams: Promise<{ catego
   try { gallery_photos = currentSettings.gallery_photos ? JSON.parse(currentSettings.gallery_photos) : undefined; } catch(e){}
 
   return (
-    <div className="pt-4 space-y-24">
+    <div className="pt-4 flex flex-col gap-y-24">
       {/* Hero Section */}
-      <AnimatedSection delay={0.1}>
-        <section className="mb-8">
+      <AnimatedSection delay={0.1} className="order-4 md:order-1">
+        <section>
           <div className="bg-[#F3F4F6] rounded-[2rem] flex flex-col md:flex-row items-center justify-between p-10 md:p-20 overflow-hidden shadow-sm">
             <div className="max-w-xl space-y-6 z-10">
               <span className="inline-block bg-white text-[#3C50E0] px-4 py-1.5 rounded-full font-semibold text-sm tracking-widest shadow-sm">
@@ -91,11 +97,35 @@ export default async function Storefront(props: { searchParams: Promise<{ catego
         </section>
       </AnimatedSection>
 
-      <AnimatedSection delay={0.2}>
+      {/* Mobile Categories (Horizontal Scroll) */}
+      <AnimatedSection delay={0.15} className="order-1 md:hidden">
+        <div className="md:hidden">
+          <div className="flex justify-between items-center mb-4 px-4">
+            <h2 className="text-2xl font-bold text-[#111827] tracking-tight">Shop by Category</h2>
+          </div>
+          <div className="flex overflow-x-auto gap-4 px-4 pb-4 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
+            {categoriesWithImages.map((cat) => (
+              <a 
+                key={cat.id} 
+                href={`/?category=${cat.slug}`}
+                className="relative w-32 h-40 shrink-0 rounded-2xl overflow-hidden snap-start shadow-sm border border-gray-100 block group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/10 z-10 transition-opacity group-hover:opacity-80" />
+                <img src={cat.imageUrl} alt={cat.name} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                <div className="absolute inset-0 z-20 flex items-end p-3">
+                  <span className="text-white font-semibold text-sm leading-tight drop-shadow-md">{cat.name}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </AnimatedSection>
+
+      <AnimatedSection delay={0.2} className="order-3 md:order-2 -my-8 md:-my-12">
         <InfiniteMarquee />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.1} className="order-5 md:order-3">
         <ShopTheLook 
           title={currentSettings.stl_title}
           subtitle={currentSettings.stl_subtitle}
@@ -106,7 +136,7 @@ export default async function Storefront(props: { searchParams: Promise<{ catego
 
 
       {/* New Arrivals Header */}
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.1} className="order-2 md:order-4">
         <div className="flex justify-between items-center mb-10 border-b border-gray-100 pb-6">
           <h2 className="text-3xl font-bold text-[#111827] tracking-tight">
             {searchParams.category ? <span className="capitalize">{searchParams.category}</span> : 'New Arrivals'}
@@ -117,19 +147,19 @@ export default async function Storefront(props: { searchParams: Promise<{ catego
         </div>
 
         {results.length === 0 ? (
-          <div className="py-32 text-center text-gray-400 bg-gray-50/50 rounded-3xl mb-16 border border-gray-100">
+          <div className="py-32 text-center text-gray-400 bg-gray-50/50 rounded-3xl border border-gray-100">
             <p className="text-xl font-medium">No items found in this category.</p>
           </div>
         ) : (
-          <div className="mb-24">
+          <div>
             <ProductGrid products={results} />
           </div>
         )}
       </AnimatedSection>
 
       {/* Promo Sections */}
-      <AnimatedSection delay={0.1}>
-        <section className="mb-24 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <AnimatedSection delay={0.1} className="order-6 md:order-5">
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-gray-50 rounded-[2rem] p-10 flex flex-col sm:flex-row items-center justify-between gap-8 group hover:bg-gray-100 transition-colors duration-500 border border-transparent hover:border-gray-200">
             <div className="flex-1 space-y-4">
               <span className="text-[#3C50E0] font-semibold tracking-wider text-sm uppercase">{currentSettings.promo1_subtitle}</span>
@@ -168,7 +198,7 @@ export default async function Storefront(props: { searchParams: Promise<{ catego
           </div>
         </section>
       </AnimatedSection>
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.1} className="order-7 md:order-6">
         <StyleQuiz 
           title={currentSettings.sq_title}
           subtitle={currentSettings.sq_subtitle}
@@ -176,7 +206,7 @@ export default async function Storefront(props: { searchParams: Promise<{ catego
         />
       </AnimatedSection>
 
-      <AnimatedSection delay={0.1}>
+      <AnimatedSection delay={0.1} className="order-8 md:order-7">
         <CustomerGallery 
           title={currentSettings.gallery_title}
           subtitle={currentSettings.gallery_subtitle}
@@ -185,7 +215,7 @@ export default async function Storefront(props: { searchParams: Promise<{ catego
       </AnimatedSection>
 
       {/* Features/Trust Badges */}
-      <AnimatedSection delay={0.2}>
+      <AnimatedSection delay={0.2} className="order-9 md:order-8">
         <section className="grid grid-cols-2 md:grid-cols-4 gap-12 py-16 border-t border-gray-100">
           <div className="flex flex-col items-center text-center gap-5 group">
             <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-[#111827] group-hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-xl">

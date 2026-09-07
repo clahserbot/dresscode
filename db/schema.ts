@@ -5,6 +5,7 @@ export const categories = pgTable('categories', {
   name: text('name').notNull(),
   slug: text('slug').notNull().unique(),
   whatsappMessage: text('whatsapp_message'),
+  imageUrl: text('image_url'),
 });
 
 export const products = pgTable('products', {
